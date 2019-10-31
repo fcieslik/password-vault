@@ -1,1 +1,21 @@
 /* You can add global styles to this file, and also import other style files */
+//color palette
+@import url('https://fonts.googleapis.com/css?family=Montserrat|Roboto&display=swap');
+
+$main: #112d4e;
+$addition: #4f81c7;
+$main-bck: #112d4e;
+$secondary-bck: #64c4ed;
+
+*{
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', 'Montserrat', sans-serif;
+}
+
+html,body {
+  height: 100%;
+  background-color: $main-bck;
+  font-family: 'Roboto', 'Montserrat', sans-serif;
+}
+
