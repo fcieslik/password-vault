@@ -1,0 +1,35 @@
+@import "../styles";
+
+.main {
+  display: grid;
+  min-height: 100%;
+  grid-template-rows: repeat(3, 1fr);
+  grid-row-gap: 20px;
+
+  &__menu {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    height: 50px;
+    padding: 10px;
+    margin-bottom: 15px;
+    color: white;
+    background-color: $main;
+  }
+
+  &__content {
+    background-color: $main-bck;
+    grid-row-start: 2;
+    grid-row-end: 3;
+    border: 2px solid black;
+    margin: 0 auto;
+  }
+
+  &__footer {
+    display: flex;
+    justify-content: center;
+    color: white;
+    grid-row-start: 3;
+    grid-row-end: 4;
+  }
+}
