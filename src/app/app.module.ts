@@ -10,6 +10,7 @@ import { WebcamModule } from 'ngx-webcam';
 import { HttpClientModule } from '@angular/common/http';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { UserNameComponent } from './user-name/user-name.component';
+import { ErrorPageComponent } from './error-page/error-page.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { UserNameComponent } from './user-name/user-name.component';
     LoginPageComponent,
     WebcamSnapshotComponent,
     DashboardPageComponent,
-    UserNameComponent
+    UserNameComponent,
+    ErrorPageComponent
   ],
   imports: [
     BrowserModule,

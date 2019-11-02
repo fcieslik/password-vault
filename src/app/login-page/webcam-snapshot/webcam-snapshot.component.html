@@ -1,37 +1,47 @@
 <div class="webcam-snapshot">
-  <ng-container *ngIf="!isPictureTaken; else second">
-    <div class="webcam-snapshot__instruction">
-      <span>Step 1: Take a picture</span>
-    </div>
-  </ng-container>
-  <ng-template #second>
-    <div class="webcam-snapshot__instruction">
-      <span>Step 2: Click on login</span>
-    </div>
-  </ng-template>
-  <ng-container *ngIf="!isPictureTaken; else picture">
-    <div class="webcam-snapshot__icon">
-      <div>
-        <webcam [height]="150" [width]="200" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
-                *ngIf="showWebcam"
-                [allowCameraSwitch]="allowCameraSwitch" [videoOptions]="videoOptions"
-                (cameraSwitched)="cameraWasSwitched($event)"
-                (initError)="handleInitError($event)"></webcam>
+  <ng-container *ngIf="!isRecognizing; else loading">
+    <ng-container *ngIf="!isPictureTaken; else second">
+      <div class="webcam-snapshot__instruction">
+        <span>Step 1: Take a picture</span>
       </div>
+    </ng-container>
+    <ng-template #second>
+      <div class="webcam-snapshot__instruction">
+        <span>Step 2: Click on login</span>
+      </div>
+    </ng-template>
+    <ng-container *ngIf="!isPictureTaken; else picture">
+      <div class="webcam-snapshot__icon">
+        <div>
+          <webcam [height]="225" [width]="250" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+                  *ngIf="showWebcam"
+                  [allowCameraSwitch]="allowCameraSwitch" [videoOptions]="videoOptions"
+                  (cameraSwitched)="cameraWasSwitched($event)"
+                  (initError)="handleInitError($event)"></webcam>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #picture>
+      <div class="webcam-snapshot__icon">
+        <img class="webcam-snapshot__snapshot" [src]="webcamImage.imageAsDataUrl"/>
+      </div>
+    </ng-template>
+    <div class="webcam-snapshot__btn-container">
+      <ng-container *ngIf="!isPictureTaken; else reset">
+        <button class="webcam-snapshot__btn" (click)="triggerSnapshot()">Take a picture</button>
+      </ng-container>
+      <ng-template #reset>
+        <button class="webcam-snapshot__btn" (click)="resetPicture()">Reset picture</button>
+      </ng-template>
+      <button class="webcam-snapshot__btn" [class.webcam-snapshot__btn--disabled]="!isPictureTaken"
+              (click)="handleLogin()">Login
+      </button>
     </div>
   </ng-container>
-  <ng-template #picture>
-    <div class="webcam-snapshot__icon">
-      <img class="webcam-snapshot__snapshot" [src]="webcamImage.imageAsDataUrl" />
+  <ng-template #loading>
+    <div class="webcam-snapshot__loading">
+      <img style="width: 100%; height: 100%" src="../../../assets/icons/camera-shutter.png" alt="">
+      <h3>Loading...</h3>
     </div>
   </ng-template>
-  <div class="webcam-snapshot__btn-container">
-    <ng-container *ngIf="!isPictureTaken; else reset">
-      <button class="webcam-snapshot__btn" (click)="triggerSnapshot()">Take a picture</button>
-    </ng-container>
-    <ng-template #reset>
-      <button class="webcam-snapshot__btn" (click)="resetPicture()">Reset picture</button>
-    </ng-template>
-    <button class="webcam-snapshot__btn" [class.webcam-snapshot__btn--disabled]="!isPictureTaken" (click)="handleLogin()">Login</button>
-  </div>
 </div>

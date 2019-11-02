@@ -1,13 +1,16 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { WebcamImage } from 'ngx-webcam';
-import { mergeMap, tap } from 'rxjs/operators';
-import { Observable } from 'rxjs';
+import { catchError, mergeMap, tap } from 'rxjs/operators';
+import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FaceRecognitionService {
+
+  isVerification = new BehaviorSubject<boolean>(false);
 
   baseUrl = 'https://facerecognitionpasswordvault.cognitiveservices.azure.com/face/v1.0';
   personGroupId = 'filip-group';
@@ -17,12 +20,15 @@ export class FaceRecognitionService {
       'Ocp-Apim-Subscription-Key': '7bde2c45461d41768f29cc28f9616b6d'
     })
   };
-  constructor(private httpClient: HttpClient) { }
+
+  constructor(private httpClient: HttpClient) {
+  }
 
   detectImage(image: WebcamImage): Observable<FaceIdentificationResponse> {
     const headers = this.getHeaders();
     const params = this.getParams();
     const blob = this.makeblob(image.imageAsDataUrl);
+    this.isVerification.next(true);
 
     return this.httpClient.post<FaceRecognitionResponse>(
       `${this.baseUrl}/detect`,
@@ -32,11 +38,20 @@ export class FaceRecognitionService {
         headers
       }
     ).pipe(
-      mergeMap(data => this.identify(this.personGroupId, data[0].faceId)),
+      catchError(error => of(EMPTY)),
+      mergeMap((data: FaceRecognitionResponse) => {
+        if (data[0]) {
+          return this.identify(this.personGroupId, data[0].faceId);
+        } else {
+          return this.identify(this.personGroupId, EMPTY);
+        }
+      }),
+      tap(() => this.isVerification.next(false))
     );
   }
 
   identify(personGroupId, faceId): Observable<FaceIdentificationResponse> {
+    //if empty provided data than display snackbar with proper information
     const request = {
       personGroupId,
       faceIds: [faceId],
@@ -58,7 +73,7 @@ export class FaceRecognitionService {
       uInt8Array[i] = raw.charCodeAt(i);
     }
 
-    return new Blob([uInt8Array], { type: contentType });
+    return new Blob([uInt8Array], {type: contentType});
   }
 
   private getHeaders() {
