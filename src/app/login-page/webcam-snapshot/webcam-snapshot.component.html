@@ -13,7 +13,7 @@
     <ng-container *ngIf="!isPictureTaken; else picture">
       <div class="webcam-snapshot__icon">
         <div>
-          <webcam [height]="225" [width]="250" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
+          <webcam [height]="187" [width]="250" [trigger]="triggerObservable" (imageCapture)="handleImage($event)"
                   *ngIf="showWebcam"
                   [allowCameraSwitch]="allowCameraSwitch" [videoOptions]="videoOptions"
                   (cameraSwitched)="cameraWasSwitched($event)"

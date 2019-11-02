@@ -72,8 +72,8 @@ export class WebcamSnapshotComponent implements OnInit, OnDestroy {
   }
 
   resetPicture() {
-    this.webcamImage = null;
     this.isPictureTaken = false;
+    this.webcamImage = null;
   }
 
   handleLogin() {
