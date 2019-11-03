@@ -11,6 +11,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
 import { UserNameComponent } from './user-name/user-name.component';
 import { ErrorPageComponent } from './error-page/error-page.component';
+import { NotAllowedPageComponent } from './not-allowed-page/not-allowed-page.component';
+import { AppPasswordDirective } from './directives/app-password.directive';
 
 @NgModule({
   declarations: [
@@ -19,7 +21,9 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     WebcamSnapshotComponent,
     DashboardPageComponent,
     UserNameComponent,
-    ErrorPageComponent
+    ErrorPageComponent,
+    NotAllowedPageComponent,
+    AppPasswordDirective
   ],
   imports: [
     BrowserModule,
@@ -27,7 +31,7 @@ import { ErrorPageComponent } from './error-page/error-page.component';
     BrowserModule,
     FormsModule,
     WebcamModule,
-    HttpClientModule
+    HttpClientModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

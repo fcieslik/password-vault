@@ -18,10 +18,24 @@ export class ConfidenceVerificationService {
 
   navigateIfConfident(faceIdentityResponse: FaceIdentificationResponse) {
     const candidate = faceIdentityResponse[0].candidates[0];
+    if (candidate) {
+      this.verifyConfidence(candidate);
+    } else {
+      this.handleNoCandidate();
+    }
+  }
+
+  private verifyConfidence(candidate: FaceRecognitionCandidate) {
     if (candidate.personId === this.userFaceId && candidate.confidence >= this.confidenceLevel) {
       this.storage.addSessionKey(candidate.personId);
       this.userService.updateUser(this.userFaceId);
       this.router.navigate(['dashboard']);
+    } else {
+      this.handleNoCandidate();
     }
+  }
+
+  private handleNoCandidate() {
+    this.router.navigate(['not-allowed']);
   }
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { WebcamImage } from 'ngx-webcam';
 import { catchError, mergeMap, tap } from 'rxjs/operators';
-import { BehaviorSubject, EMPTY, Observable, of } from 'rxjs';
+import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
 import { Router } from '@angular/router';
 
 @Injectable({
@@ -21,7 +21,8 @@ export class FaceRecognitionService {
     })
   };
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient,
+              private router: Router) {
   }
 
   detectImage(image: WebcamImage): Observable<FaceIdentificationResponse> {
@@ -38,20 +39,18 @@ export class FaceRecognitionService {
         headers
       }
     ).pipe(
-      catchError(error => of(EMPTY)),
+      catchError(err => {
+        this.router.navigate(['recognition-error']);
+        return throwError(err);
+      }),
       mergeMap((data: FaceRecognitionResponse) => {
-        if (data[0]) {
-          return this.identify(this.personGroupId, data[0].faceId);
-        } else {
-          return this.identify(this.personGroupId, EMPTY);
-        }
+        return this.identify(this.personGroupId, data[0].faceId);
       }),
       tap(() => this.isVerification.next(false))
     );
   }
 
   identify(personGroupId, faceId): Observable<FaceIdentificationResponse> {
-    //if empty provided data than display snackbar with proper information
     const request = {
       personGroupId,
       faceIds: [faceId],

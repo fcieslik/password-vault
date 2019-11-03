@@ -1,3 +1,83 @@
 <div class="dashboard">
-
+  <div class="dashboard__form">
+    <h3>Add new account</h3>
+    <div class="dashboard__password-setter">
+      <form #postForm="ngForm" (ngSubmit)="onCreatePost(postForm, postForm.value)">
+        <div class="form-group">
+          <label for="title">Title</label>
+          <input
+            style="height: 25px"
+            type="text"
+            class="form-control"
+            id="title"
+            required
+            ngModel
+            name="title"
+          />
+        </div>
+        <div class="form-group">
+          <label for="accountName">Account Name</label>
+          <input
+            style="height: 25px"
+            type="text"
+            class="form-control"
+            id="accountName"
+            required
+            ngModel
+            name="accountName"
+          />
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input
+            style="height: 25px"
+            type="text"
+            class="form-control"
+            id="password"
+            required
+            [(ngModel)]="password"
+            name="password"
+            appAppPassword/>
+          <p class="generator" (click)="generateRandomPass()">Generate password</p>
+        </div>
+        <button
+          class="dashboard__btn"
+          type="submit"
+          [disabled]="!postForm.valid || isInProgress"
+        >
+          Add account
+        </button>
+      </form>
+    </div>
+  </div>
+  <ng-container *ngIf="availablePassAccounts | async; else nodata">
+    <div class="dashboard__account-list">
+      <h3>Currently added accounts</h3>
+      <ng-container *ngFor="let passAccount of availablePassAccounts | async">
+        <div class="dashboard__account-list__account">
+          <p class="title"><span>Title: </span>{{passAccount.title}}</p>
+          <p class="accountName"><span>Account name: </span>{{passAccount.accountName}}</p>
+          <p class="password-block">
+            <span>Password: </span>
+            <input
+              style="height: 25px"
+              type="text"
+              class="form-control noselect password"
+              [(ngModel)]="passAccount.password"
+              appAppPassword/>
+            <!--<span class="password noselect">{{passAccount.password}}</span>-->
+          </p>
+          <p class="clipboard" (click)="toClipboard(passAccount.password)">To clipboard</p>
+          <p class="removal" (click)="onDeleteData(passAccount.id)">Remove entry</p>
+        </div>
+        <hr>
+      </ng-container>
+    </div>
+  </ng-container>
+  <ng-template #nodata>
+    <div *ngIf="!isInProgress" class="dashboard__no-data">
+      <h3>No data available</h3>
+      <img src="../../assets/icons/no-data.png" alt="">
+    </div>
+  </ng-template>
 </div>
