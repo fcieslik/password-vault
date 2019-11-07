@@ -1,0 +1,153 @@
+@import "../../styles";
+
+.dashboard {
+  width: 90vw;
+  height: 100%;
+
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  background-color: white;
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 10px;
+    background-color: $secondary-bck;
+    color: white;
+  }
+
+  &__account-list {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+
+    h3 {
+      align-self: center;
+    }
+
+    &__account {
+      margin: 10px 0;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      grid-template-rows: repeat(3, 1fr);
+      grid-column-gap: 15px;
+      align-items: center;
+      grid-template-areas:
+      "title title accountName accountName"
+      "password-block password-block password-block password-block"
+      "clipboard clipboard removal removal";
+
+      span {
+        font-weight: bold;
+        margin-right: 5px;
+      }
+
+      hr {
+        margin: 5px 20px;
+      }
+    }
+  }
+
+  &__no-data {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+
+    h3 {
+      margin: 0 0 20px 0;
+    }
+
+    img {
+      height: 200px;
+      width: 150px;
+    }
+  }
+
+  &__btn {
+    font-weight: bold;
+    cursor: pointer;
+    height: 40px;
+    width: 100px;
+    background-color: #f9f7f7;
+    border: 1px solid black;
+    border-radius: 17px;
+    outline: none;
+
+    &:hover {
+      background-color: #c9d6df;
+    }
+
+    &--disabled {
+      background-color: #52616b;
+      pointer-events: none;
+    }
+  }
+}
+
+.title {
+  grid-area: title;
+}
+
+.accountName {
+  grid-area: accountName;
+}
+
+.password-block {
+  grid-area: password-block
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  width: 200px;
+  margin: 10px 0;
+}
+
+.removal {
+  grid-area: removal;
+  color: #d1274b;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.generator {
+  color: #007944;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.clipboard {
+  grid-area: clipboard;
+  color: #007944;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+
+.password {
+  width: 50%;
+  max-width: 100px;
+  border: none;
+}
+
+/*
+.password {
+  background-color: black;
+
+  &:hover {
+    background-color: transparent;
+  }
+}*/
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+  /* Non-prefixed version, currently
+                                   supported by Chrome, Opera and Firefox */
+}
