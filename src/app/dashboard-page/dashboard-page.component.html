@@ -50,34 +50,48 @@
       </form>
     </div>
   </div>
-  <ng-container *ngIf="availablePassAccounts | async; else nodata">
-    <div class="dashboard__account-list">
+  <div class="dashboard__account-list">
+    <div class="dashboard__search">
+      <input type="text"
+             style="height: 30px" placeholder="Search by title" [(ngModel)]="searchText" #searchInput>
+    </div>
+    <ng-container *ngIf="!isLoading && availablePassAccounts | async; else nodata">
       <h3>Currently added accounts</h3>
-      <ng-container *ngFor="let passAccount of availablePassAccounts | async">
-        <div class="dashboard__account-list__account">
-          <p class="title"><span>Title: </span>{{passAccount.title}}</p>
-          <p class="accountName"><span>Account name: </span>{{passAccount.accountName}}</p>
-          <p class="password-block">
-            <span>Password: </span>
-            <input
-              style="height: 25px"
-              type="text"
-              class="form-control noselect password"
-              [(ngModel)]="passAccount.password"
-              appAppPassword/>
-            <!--<span class="password noselect">{{passAccount.password}}</span>-->
-          </p>
-          <p class="clipboard" (click)="toClipboard(passAccount.password)">To clipboard</p>
-          <p class="removal" (click)="onDeleteData(passAccount.id)">Remove entry</p>
-        </div>
-        <hr>
-      </ng-container>
+      <div style="overflow: hidden; overflow-y: auto; height: 300px">
+        <ng-container *ngFor="let passAccount of availablePassAccounts | async">
+          <div class="dashboard__account-list__account">
+            <p class="title"><span>Title: </span>{{passAccount.title}}</p>
+            <p class="accountName"><span>Account name: </span>{{passAccount.accountName}}</p>
+            <p class="password-block">
+              <span>Password: </span>
+              <input
+                style="height: 25px"
+                type="text"
+                class="form-control noselect password"
+                [(ngModel)]="passAccount.password"
+                appAppPassword/>
+              <!--<span class="password noselect">{{passAccount.password}}</span>-->
+            </p>
+            <p class="clipboard" (click)="toClipboard(passAccount.password)">To clipboard</p>
+            <p class="removal" (click)="onDeleteData(passAccount.id)">Remove entry</p>
+          </div>
+          <hr>
+        </ng-container>
+      </div>
+    </ng-container>
+    <ng-template #nodata>
+      <div *ngIf="!isInProgress && !isLoading && !isErrored" class="dashboard__no-data">
+        <h3>No data available</h3>
+        <img src="../../assets/icons/no-data.png" alt="">
+      </div>
+    </ng-template>
+    <div class="dashboard__loader" *ngIf="isInProgress && isLoading">
+      <h3>Loading data...</h3>
+      <img src="../../assets/icons/loading.png" alt="">
     </div>
-  </ng-container>
-  <ng-template #nodata>
-    <div *ngIf="!isInProgress" class="dashboard__no-data">
-      <h3>No data available</h3>
-      <img src="../../assets/icons/no-data.png" alt="">
+    <div class="dashboard__error" *ngIf="isErrored">
+      <h3>Error fetching data</h3>
+      <img src="../../assets/icons/failed.png" alt="">
     </div>
-  </ng-template>
+  </div>
 </div>

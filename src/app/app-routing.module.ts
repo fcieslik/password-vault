@@ -10,13 +10,13 @@ import { NotAllowedPageComponent } from './not-allowed-page/not-allowed-page.com
 const routes: Routes = [
   {path: '', redirectTo: 'login-page', pathMatch: 'full'},
   {path: 'login-page', component: LoginPageComponent},
-  {path: 'dashboard', component: DashboardPageComponent, canActivate: [LoggedGuard]},
+  {path: 'dashboard', component: DashboardPageComponent, /*canActivate: [LoggedGuard]*/},
   {path: 'recognition-error', component: ErrorPageComponent},
   {path: 'not-allowed', component: NotAllowedPageComponent}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, { enableTracing: true })],
+  imports: [RouterModule.forRoot(routes, /*{ enableTracing: true }*/)],
   exports: [RouterModule]
 })
 export class AppRoutingModule { }
