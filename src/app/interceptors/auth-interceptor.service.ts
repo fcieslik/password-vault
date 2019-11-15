@@ -11,7 +11,6 @@ export class AuthInterceptorService implements HttpInterceptor{
   constructor() { }
 
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    console.log('requests is being sent');
     const modifyReq = req.clone({headers: req.headers.append('Auth', '12314141432423')})
     return next.handle(modifyReq);
   }

@@ -1,10 +1,10 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
-import { PasswordAccountService } from '../services/password-account/password-account.service';
+import { PasswordAccountService } from '../../services/password-account/password-account.service';
 import { fromEvent, Observable, of, Subscription } from 'rxjs';
 import { debounceTime, distinctUntilChanged, filter, map, mergeMap, switchMap, tap } from 'rxjs/operators';
 import { NgForm } from '@angular/forms';
-import { PasswordGeneratorService } from '../services/password-generator/password-generator.service';
-import { ClipboardServiceService } from '../services/clipboard/clipboard-service.service';
+import { PasswordGeneratorService } from '../../services/password-generator/password-generator.service';
+import { ClipboardServiceService } from '../../services/clipboard/clipboard-service.service';
 
 @Component({
   selector: 'app-dashboard-page',

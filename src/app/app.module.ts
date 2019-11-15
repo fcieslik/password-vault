@@ -8,12 +8,11 @@ import { WebcamSnapshotComponent } from './login-page/webcam-snapshot/webcam-sna
 import { FormsModule } from '@angular/forms';
 import { WebcamModule } from 'ngx-webcam';
 import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
-import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
+import { DashboardPageComponent } from './dashboard/dashboard-page/dashboard-page.component';
 import { UserNameComponent } from './user-name/user-name.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
-import { NotAllowedPageComponent } from './not-allowed-page/not-allowed-page.component';
 import { AppPasswordDirective } from './directives/app-password.directive';
 import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
+import { ErrorModule } from './error/error.module';
 
 @NgModule({
   declarations: [
@@ -22,8 +21,6 @@ import { AuthInterceptorService } from './interceptors/auth-interceptor.service'
     WebcamSnapshotComponent,
     DashboardPageComponent,
     UserNameComponent,
-    ErrorPageComponent,
-    NotAllowedPageComponent,
     AppPasswordDirective
   ],
   imports: [
@@ -33,6 +30,7 @@ import { AuthInterceptorService } from './interceptors/auth-interceptor.service'
     FormsModule,
     WebcamModule,
     HttpClientModule,
+    ErrorModule
   ],
   providers: [
     {

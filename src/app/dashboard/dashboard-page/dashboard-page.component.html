@@ -82,16 +82,16 @@
     <ng-template #nodata>
       <div *ngIf="!isInProgress && !isLoading && !isErrored" class="dashboard__no-data">
         <h3>No data available</h3>
-        <img src="../../assets/icons/no-data.png" alt="">
+        <img src="../../../assets/icons/no-data.png" alt="">
       </div>
     </ng-template>
     <div class="dashboard__loader" *ngIf="isInProgress && isLoading">
       <h3>Loading data...</h3>
-      <img src="../../assets/icons/loading.png" alt="">
+      <img src="../../../assets/icons/loading.png" alt="">
     </div>
     <div class="dashboard__error" *ngIf="isErrored">
       <h3>Error fetching data</h3>
-      <img src="../../assets/icons/failed.png" alt="">
+      <img src="../../../assets/icons/failed.png" alt="">
     </div>
   </div>
 </div>

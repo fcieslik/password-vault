@@ -1,5 +1,5 @@
 import { Component, EventEmitter, OnDestroy, OnInit, Output } from '@angular/core';
-import { Observable, Subject, Subscription, throwError } from 'rxjs';
+import { Observable, pipe, Subject, Subscription, throwError } from 'rxjs';
 import { WebcamImage, WebcamInitError, WebcamUtil } from 'ngx-webcam';
 import { FaceRecognitionService } from '../../services/face-recognition/face-recognition.service';
 import { ConfidenceVerificationService } from '../../services/confidence-verification/confidence-verification.service';
@@ -39,7 +39,10 @@ export class WebcamSnapshotComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.isVerificationSubscription = this.faceRecognitionService.isVerification
-      .subscribe(value => this.isRecognizing = value);
+      .pipe(
+        tap(value => this.isRecognizing = value)
+      )
+      .subscribe();
     WebcamUtil.getAvailableVideoInputs()
       .then((mediaDevices: MediaDeviceInfo[]) => {
         this.multipleWebcamsAvailable = mediaDevices && mediaDevices.length > 1;
@@ -80,7 +83,7 @@ export class WebcamSnapshotComponent implements OnInit, OnDestroy {
     this.faceRecognitionService.detectImage(this.webcamImage)
       .pipe(
         catchError(err => {
-          this.router.navigate(['recognition-error']);
+          this.router.navigate(['error', 'recognition-error']);
           return throwError(err);
         })
       )

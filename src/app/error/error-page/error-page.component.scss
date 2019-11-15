@@ -1,4 +1,4 @@
-@import "../../styles";
+@import "../../../styles";
 
 .error-page {
   width: 90vw;
@@ -58,5 +58,6 @@
     text-decoration: none;
     color: #112d4e;
     font-weight: bold;
+    cursor: pointer;
   }
 }
