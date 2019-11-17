@@ -36,6 +36,6 @@ export class ConfidenceVerificationService {
   }
 
   private handleNoCandidate() {
-    this.router.navigate(['not-allowed']);
+    this.router.navigate(['error', 'not-allowed']);
   }
 }

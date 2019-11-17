@@ -2,8 +2,9 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { WebcamImage } from 'ngx-webcam';
 import { catchError, mergeMap, tap } from 'rxjs/operators';
-import { BehaviorSubject, EMPTY, Observable, of, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, throwError } from 'rxjs';
 import { Router } from '@angular/router';
+import { ErrorStorageService } from '../error-storage/error-storage.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,7 +23,8 @@ export class FaceRecognitionService {
   };
 
   constructor(private httpClient: HttpClient,
-              private router: Router) {
+              private router: Router,
+              private errorStorageService: ErrorStorageService) {
   }
 
   detectImage(image: WebcamImage): Observable<FaceIdentificationResponse> {
@@ -31,7 +33,7 @@ export class FaceRecognitionService {
     const blob = this.makeblob(image.imageAsDataUrl);
     this.isVerification.next(true);
 
-    return this.httpClient.post<FaceRecognitionResponse>(
+    return this.httpClient.post<FaceRecognitionResponse[]>(
       `${this.baseUrl}/detect`,
       blob,
       {
@@ -40,20 +42,26 @@ export class FaceRecognitionService {
       }
     ).pipe(
       catchError(err => {
-        this.router.navigate(['recognition-error']);
+        this.isVerification.next(false)
+        this.router.navigate(['error', 'recognition-error']);
         return throwError(err);
       }),
-      mergeMap((data: FaceRecognitionResponse) => {
-        return this.identify(this.personGroupId, data[0].faceId);
+      mergeMap((data: FaceRecognitionResponse[]) => {
+        return this.identify(this.personGroupId, data);
+      }),
+      catchError(err => {
+        this.isVerification.next(false)
+        this.router.navigate(['error', 'recognition-error']);
+        return throwError(err);
       }),
       tap(() => this.isVerification.next(false))
     );
   }
 
-  identify(personGroupId, faceId): Observable<FaceIdentificationResponse> {
+  identify(personGroupId, data: FaceRecognitionResponse[]): Observable<FaceIdentificationResponse> {
     const request = {
       personGroupId,
-      faceIds: [faceId],
+      faceIds: [data[0].faceId] || [0],
       maxNumOfCandidatesReturned: 1,
       confidenceThreshold: 0.4
     };

@@ -7,12 +7,12 @@ import { LoginPageComponent } from './login-page/login-page.component';
 import { WebcamSnapshotComponent } from './login-page/webcam-snapshot/webcam-snapshot.component';
 import { FormsModule } from '@angular/forms';
 import { WebcamModule } from 'ngx-webcam';
-import { HttpClientModule } from '@angular/common/http';
-import { DashboardPageComponent } from './dashboard-page/dashboard-page.component';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http';
+import { DashboardPageComponent } from './dashboard/dashboard-page/dashboard-page.component';
 import { UserNameComponent } from './user-name/user-name.component';
-import { ErrorPageComponent } from './error-page/error-page.component';
-import { NotAllowedPageComponent } from './not-allowed-page/not-allowed-page.component';
 import { AppPasswordDirective } from './directives/app-password.directive';
+import { AuthInterceptorService } from './interceptors/auth-interceptor.service';
+import { ErrorModule } from './error/error.module';
 
 @NgModule({
   declarations: [
@@ -21,8 +21,6 @@ import { AppPasswordDirective } from './directives/app-password.directive';
     WebcamSnapshotComponent,
     DashboardPageComponent,
     UserNameComponent,
-    ErrorPageComponent,
-    NotAllowedPageComponent,
     AppPasswordDirective
   ],
   imports: [
@@ -32,8 +30,16 @@ import { AppPasswordDirective } from './directives/app-password.directive';
     FormsModule,
     WebcamModule,
     HttpClientModule,
+    ErrorModule
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptorService,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {
+}

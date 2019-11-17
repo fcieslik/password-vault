@@ -1,4 +1,4 @@
-@import "../../styles";
+@import "../../../styles";
 
 .dashboard {
   width: 90vw;
@@ -7,6 +7,19 @@
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   background-color: white;
+
+  &__search {
+    margin: 15px 0;
+    height: 35px;
+
+    input {
+      margin-right: 15px;
+    }
+
+    button {
+      height: 100%;
+    }
+  }
 
   &__form {
     display: flex;
@@ -62,6 +75,38 @@
     img {
       height: 200px;
       width: 150px;
+    }
+  }
+
+  &__loader {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+
+    h3 {
+      margin: 0 0 20px 0;
+    }
+
+    img {
+      height: 200px;
+      width: 200px;
+    }
+  }
+
+  &__error {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    align-items: center;
+
+    h3 {
+      margin: 0 0 20px 0;
+    }
+
+    img {
+      height: 200px;
+      width: 200px;
     }
   }
 
